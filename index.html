@@ -12,43 +12,92 @@
             display: flex;
             flex-direction: column;
             font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
         }
         .container {
             display: flex;
             flex: 1;
-            height: 70vh; /* Adjusts to leave space for Discord at the bottom */
+            height: 70vh;
         }
         .left, .right {
             width: 50%;
             height: 100%;
-            border: none;
+            position: relative;
         }
         .left {
-            border-right: 1px solid #ccc; /* Optional separator */
+            border-right: 1px solid #ccc;
         }
         .bottom {
-            height: 30vh; /* Discord section height */
+            height: 30vh;
             width: 100%;
-            border-top: 1px solid #ccc; /* Optional separator */
+            border-top: 1px solid #ccc;
+            position: relative;
         }
         iframe {
             width: 100%;
             height: 100%;
             border: none;
         }
+        .fallback {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            padding-top: 20%;
+        }
+        .fallback a {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .fallback a:hover {
+            background: #0056b3;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="left">
-            <iframe src="https://mail.google.com/mail/u/0/#inbox" title="Gmail"></iframe>
+            <iframe src="https://mail.google.com/mail/u/0/#inbox" title="Gmail" onload="checkIframe(this)"></iframe>
+            <div class="fallback" id="gmail-fallback">
+                <p>Gmail could not be loaded.</p>
+                <a href="https://mail.google.com" target="_blank">Open Gmail</a>
+            </div>
         </div>
         <div class="right">
-            <iframe src="https://calendar.google.com/calendar/u/0/r" title="Google Calendar"></iframe>
+            <iframe src="YOUR_PUBLIC_CALENDAR_EMBED_URL" title="Google Calendar" onload="checkIframe(this)"></iframe>
+            <div class="fallback" id="calendar-fallback">
+                <p>Google Calendar could not be loaded.</p>
+                <a href="https://calendar.google.com" target="_blank">Open Calendar</a>
+            </div>
         </div>
     </div>
     <div class="bottom">
-        <iframe src="https://discord.com/channels/1347725908513128468/1347725908513128470"" title="Discord"></iframe>
+        <iframe src="https://discordapp.com/api/guilds/1347725908513128468/widget.json" title="Discord" onload="checkIframe(this)"></iframe>
+        <div class="fallback" id="discord-fallback">
+            <p>Discord could not be loaded.</p>
+            <a href="YOUR_DISCORD_SERVER_URL" target="_blank">Open Discord</a>
+        </div>
     </div>
+
+    <script>
+        function checkIframe(iframe) {
+            try {
+                if (!iframe.contentWindow.document.body.innerHTML) {
+                    const fallbackId = iframe.title.toLowerCase() + '-fallback';
+                    document.getElementById(fallbackId).style.display = 'block';
+                }
+            } catch (e) {
+                const fallbackId = iframe.title.toLowerCase() + '-fallback';
+                document.getElementById(fallbackId).style.display = 'block';
+            }
+        }
+    </script>
 </body>
 </html>
