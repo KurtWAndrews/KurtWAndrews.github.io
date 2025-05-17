@@ -1,2 +1,2 @@
 # KurtWAndrews.github.io
-Host a personal page
+Host a blog site to feed the Euclid's Toolworks Substackßß
